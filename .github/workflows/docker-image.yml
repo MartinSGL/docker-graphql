@@ -22,9 +22,10 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER  }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD  }}
       run: | # this symbol "|" means that every line below is a command to run
-        echo "iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "fin del login"
-    
-#    - name: Build the Docker image
-#      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build docker Image
+      run: |
+        docker build -t chavin/docker-graphql:0.0.2 .
+    - name: Push docker Image
+      run: |
+        docker push chavin/docker-graphql:0.0.2 .
