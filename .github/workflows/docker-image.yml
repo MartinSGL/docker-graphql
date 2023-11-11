@@ -17,17 +17,30 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+        
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        major_pattern: "major:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+      
     - name: Docker Login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER  }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD  }}
+        NEW_VERSION: ${{ steps.version.outputs.version}}
       run: | # this symbol "|" means that every line below is a command to run
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Build docker Image
-      run: |
-        docker build -t chavin/docker-graphql:0.0.2 .
-        docker build -t chavin/docker-graphql:latest .
-    - name: Push docker Image
-      run: |
-        docker push chavin/docker-graphql:0.0.2
-         docker push chavin/docker-graphql:latest
+        echo "New version: $NEW_VERSION!!!!" 
+
+            
+ #   - name: Build docker Image
+ #     run: |
+ #       docker build -t chavin/docker-graphql:0.0.2 .
+ #       docker build -t chavin/docker-graphql:latest .
+ #   - name: Push docker Image
+ #     run: |
+ #       docker push chavin/docker-graphql:0.0.2
+ #        docker push chavin/docker-graphql:latest
