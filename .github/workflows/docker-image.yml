@@ -28,4 +28,4 @@ jobs:
         docker build -t chavin/docker-graphql:0.0.2 .
     - name: Push docker Image
       run: |
-        docker push chavin/docker-graphql:0.0.2 .
+        docker push chavin/docker-graphql:0.0.2
